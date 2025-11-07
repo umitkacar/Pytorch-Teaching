@@ -1,0 +1,30 @@
+# PyTorch Teaching - Requirements
+# Python 3.8+
+
+# Core Dependencies
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Jupyter Environment
+jupyter>=1.0.0
+notebook>=6.5.0
+ipython>=8.0.0
+ipywidgets>=8.0.0
+
+# Data Science & Visualization
+numpy>=1.24.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+
+# Development Tools (Optional)
+black>=23.0.0
+flake8>=6.0.0
+isort>=5.12.0
+pytest>=7.3.0
+
+# Additional Utilities
+tqdm>=4.65.0
+pillow>=9.5.0
