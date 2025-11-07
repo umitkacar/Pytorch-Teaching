@@ -1,10 +1,12 @@
 <div align="center">
 
-# 🔥 PyTorch Teaching - Ultra Modern Learning Hub 🚀
+# 🔥 PyTorch Teaching - Professional CLI Learning Tool 🚀
 
 <img src="images/pytorch.jpg" alt="PyTorch Logo" width="300"/>
 
-### *Master Deep Learning with Style* ✨
+### *Master Deep Learning from Basics to Production* ✨
+
+**🎯 NEW in v2.0: Complete CLI Rewrite with ExecutorTorch & 24 Lessons!**
 
 [![GitHub stars](https://img.shields.io/github/stars/umitkacar/Pytorch-Teaching?style=for-the-badge&logo=github&color=yellow)](https://github.com/umitkacar/Pytorch-Teaching/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/umitkacar/Pytorch-Teaching?style=for-the-badge&logo=github&color=blue)](https://github.com/umitkacar/Pytorch-Teaching/network)
@@ -13,14 +15,44 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 
 <p align="center">
+  <a href="#-whats-new">What's New</a> •
   <a href="#-features">Features</a> •
-  <a href="#-lessons">Lessons</a> •
-  <a href="#-2024-2025-trending-resources">Trending Resources</a> •
   <a href="#-installation">Installation</a> •
-  <a href="#-roadmap">Roadmap</a>
+  <a href="#-usage">Usage</a> •
+  <a href="#-curriculum">Curriculum</a> •
+  <a href="#-contributing">Contributing</a>
 </p>
 
 </div>
+
+---
+
+## 🎯 What's New in v2.0
+
+**🚀 Complete Rewrite:** Transformed from Jupyter notebooks to a professional CLI tool!
+
+- ✅ **Modern CLI Interface**: Interactive command-line tool with `typer` and `rich`
+- ✅ **Professional Structure**: `src` layout + `pyproject.toml` + `hatch` + pre-commit hooks
+- ✅ **24 Comprehensive Lessons**: ExecutorTorch, Quantization, Distributed Training & more
+- ✅ **Production-Ready**: Real-world patterns, best practices, testing
+- ✅ **Zero Notebooks**: Pure Python for better collaboration and version control
+
+### Quick Start
+
+```bash
+# Install
+pip install -e .
+
+# Run a lesson
+pytorch-teach run 1      # Tensor Fundamentals
+pytorch-teach run 21     # ExecutorTorch (🔥 Mobile AI!)
+
+# List all lessons
+pytorch-teach list
+
+# Health check
+pytorch-teach doctor
+```
 
 ---
 
@@ -30,20 +62,20 @@
 <tr>
 <td width="50%">
 
-### 🎯 **Interactive Learning**
-- 📓 Jupyter Notebook based tutorials
-- 🎨 Visual explanations with code
-- 💡 Real-world examples
-- ⚡ Hands-on practice
+### 🎯 **Professional CLI Tool**
+- 🖥️ Interactive command-line interface
+- 🎨 Beautiful Rich formatting
+- ⚡ Fast and responsive
+- 📊 Real-time diagnostics
 
 </td>
 <td width="50%">
 
-### 🚀 **Modern Approach**
-- 🔬 Latest PyTorch features (2024-2025)
-- 🧠 AI/ML best practices
-- 🏆 Industry-standard techniques
-- 📊 Performance optimization tips
+### 🚀 **Modern Development**
+- 🔬 PyTorch 2.x features
+- 🧠 Production patterns
+- 🏆 Industry best practices
+- 📦 Easy pip/hatch install
 
 </td>
 </tr>
@@ -51,69 +83,97 @@
 
 ---
 
-## 📚 Lessons
+## 📚 Curriculum
 
-### 🎓 **Core Curriculum**
+### **24 Comprehensive Lessons** - From Basics to Production
 
-<details open>
-<summary><b>📖 Lesson 1: What is Tensor?</b></summary>
-<br>
+Run any lesson with: `pytorch-teach run <lesson_number>`
 
-> **🎯 Learning Objectives:**
-> - Understanding scalars, vectors, matrices, and tensors
-> - Comparing Python, NumPy, and PyTorch implementations
-> - Tensor creation and basic operations
+#### 📖 **Foundation** (Lessons 1-7)
+- ✅ **Lesson 1**: Tensor Fundamentals - `pytorch-teach run 1`
+- ✅ **Lesson 2**: Mathematical Operations - `pytorch-teach run 2`
+- ✅ **Lesson 3**: Device Management (CPU/CUDA/MPS) - `pytorch-teach run 3`
+- 🚧 **Lesson 4**: Autograd & Automatic Differentiation
+- 🚧 **Lesson 5**: Neural Networks with nn.Module
+- 🚧 **Lesson 6**: DataLoaders & Efficient Data Pipelines
+- 🚧 **Lesson 7**: Training Loops & Optimization
 
-```python
-import torch
-tensor = torch.tensor([[1, 2], [3, 4]])
-print(tensor)
+#### ⚡ **Performance Optimization** (Lessons 8-10)
+- 🚧 **Lesson 8**: Automatic Mixed Precision (AMP)
+- 🚧 **Lesson 9**: torch.compile & Model Compilation
+- 🚧 **Lesson 10**: Profiling & Performance Analysis
+
+#### 🌐 **Distributed Training** (Lessons 11-13)
+- 🚧 **Lesson 11**: DistributedDataParallel (DDP)
+- 🚧 **Lesson 12**: Fully Sharded Data Parallel (FSDP)
+- 🚧 **Lesson 13**: Advanced Distributed Strategies
+
+#### 🔧 **Model Optimization** (Lessons 14-16)
+- 🚧 **Lesson 14**: Quantization (INT8/INT4)
+- 🚧 **Lesson 15**: Model Pruning & Sparsity
+- 🚧 **Lesson 16**: Knowledge Distillation
+
+#### 🏗️ **Modern Architectures** (Lessons 17-19)
+- 🚧 **Lesson 17**: Transformer Architectures from Scratch
+- 🚧 **Lesson 18**: CNNs Best Practices
+- 🚧 **Lesson 19**: RNNs & Sequence Modeling
+
+#### 🚀 **Production Deployment** (Lessons 20-22)
+- 🚧 **Lesson 20**: Model Export & Deployment Strategies
+- ✅ **Lesson 21**: **ExecutorTorch - Mobile & Edge AI** 🔥 - `pytorch-teach run 21`
+- 🚧 **Lesson 22**: Custom Operators & C++ Extensions
+
+#### 🎯 **Advanced Topics** (Lessons 23-24)
+- 🚧 **Lesson 23**: Memory Optimization Techniques
+- 🚧 **Lesson 24**: Production Best Practices & Patterns
+
+> **Legend:** ✅ Available Now | 🚧 Coming Soon
+
+---
+
+## 🎮 Usage
+
+### **CLI Commands**
+
+```bash
+# Show help
+pytorch-teach --help
+ptt --help  # Short alias
+
+# Display system info
+pytorch-teach info
+
+# List all lessons
+pytorch-teach list
+
+# Run lessons
+pytorch-teach run 1   # Tensor Fundamentals
+pytorch-teach run 2   # Math Operations
+pytorch-teach run 3   # Device Management
+pytorch-teach run 21  # ExecutorTorch 🔥
+
+# Run in batch mode (non-interactive)
+pytorch-teach run 1 --no-interactive
+
+# Health check your PyTorch installation
+pytorch-teach doctor
 ```
 
-**📁 File:** `Pytorch-Lesson-1 (What is tensor?).ipynb`
+### **Interactive Experience**
 
-</details>
+```bash
+$ pytorch-teach run 21
 
-<details open>
-<summary><b>🧮 Lesson 2: Math Functions with Tensors</b></summary>
-<br>
+    ╔═══════════════════════════════════════════════════════════╗
+    ║   🔥 PyTorch Teaching - Professional Learning CLI 🔥    ║
+    ║   Master Deep Learning from Basics to Production         ║
+    ╚═══════════════════════════════════════════════════════════╝
 
-> **🎯 Learning Objectives:**
-> - Tensor generation: `rand()`, `randn()`, `zeros()`, `ones()`
-> - Mathematical operations: addition, multiplication, division
-> - Tensor manipulation: `view()`, `reshape()`, `mean()`, `std()`
-> - In-place vs standard operations
+    ✓ CUDA Available: 12.1 (1 device(s))
+      GPU: NVIDIA GeForce RTX 4090
 
-```python
-# Element-wise operations
-a = torch.rand(3, 3)
-b = torch.rand(3, 3)
-result = a * b  # Element-wise multiplication
+    [Beautiful, interactive lesson on ExecutorTorch deployment...]
 ```
-
-**📁 File:** `Pytorch-Lesson-2 (Math Function with Tensor).ipynb`
-
-</details>
-
-<details open>
-<summary><b>⚙️ Lesson 3: Convert Tensor & CPU-CUDA</b></summary>
-<br>
-
-> **🎯 Learning Objectives:**
-> - Data type conversions (NumPy ↔ PyTorch ↔ Lists)
-> - Memory management and sharing
-> - CPU to GPU (CUDA) operations
-> - Device management best practices
-
-```python
-# Move tensor to GPU
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-tensor = torch.tensor([1, 2, 3]).to(device)
-```
-
-**📁 File:** `Pytorch-Lesson-3 (Convert tensor and cpu-cuda).ipynb`
-
-</details>
 
 ---
 
