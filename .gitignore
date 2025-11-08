@@ -127,3 +127,50 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ruff
+.ruff_cache/
+
+# Hatch
+.hatch/
+
+# Pylint
+.pylint.d/
+
+# Bandit
+.bandit
+
+# pytest-benchmark
+.benchmarks/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# MacOS
+.DS_Store
+
+# Coverage reports
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Build artifacts
+*.whl
+*.tar.gz
+
+# Secrets
+.secrets.baseline
+secrets.txt
+*.key
+*.pem
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
