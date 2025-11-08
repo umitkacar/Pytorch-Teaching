@@ -14,6 +14,6 @@ __version__ = "2.0.0"
 __author__ = "PyTorch Teaching Team"
 __license__ = "MIT"
 
-from pytorch_teaching import lessons, utils
-
-__all__ = ["lessons", "utils", "__version__", "__author__", "__license__"]
+# Lazy imports to avoid dependency issues at import time
+# Import submodules on demand to prevent circular imports and missing dependencies
+__all__ = ["__version__", "__author__", "__license__"]

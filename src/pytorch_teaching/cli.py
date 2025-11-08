@@ -9,7 +9,6 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-import torch
 import typer
 from rich import print as rprint
 from rich.console import Console
@@ -19,11 +18,8 @@ from rich.table import Table
 from rich.tree import Tree
 
 from pytorch_teaching import __version__
-from pytorch_teaching.lessons import (
-    lesson_01_tensors,
-    lesson_02_math_ops,
-    lesson_03_device_management,
-)
+
+# Lessons are imported on-demand to avoid dependency issues at CLI startup
 
 app = typer.Typer(
     name="pytorch-teach",
@@ -48,22 +44,32 @@ def display_banner():
     """
     console.print(banner, style="bold cyan")
     console.print(f"[bold green]Version:[/bold green] {__version__}")
-    console.print(f"[bold green]PyTorch:[/bold green] {torch.__version__}\n")
+
+    # Try to import torch for version info
+    try:
+        import torch
+        console.print(f"[bold green]PyTorch:[/bold green] {torch.__version__}\n")
+    except ImportError:
+        console.print(f"[bold yellow]PyTorch:[/bold yellow] Not installed\n")
 
 
 def check_cuda_availability():
     """Display CUDA availability status."""
-    if torch.cuda.is_available():
-        cuda_version = torch.version.cuda
-        device_count = torch.cuda.device_count()
-        device_name = torch.cuda.get_device_name(0)
-        console.print(
-            f"[bold green]✓ CUDA Available:[/bold green] {cuda_version} "
-            f"({device_count} device(s))"
-        )
-        console.print(f"[bold green]  GPU:[/bold green] {device_name}\n")
-    else:
-        console.print("[bold yellow]⚠ CUDA Not Available[/bold yellow] - Using CPU\n")
+    try:
+        import torch
+        if torch.cuda.is_available():
+            cuda_version = torch.version.cuda
+            device_count = torch.cuda.device_count()
+            device_name = torch.cuda.get_device_name(0)
+            console.print(
+                f"[bold green]✓ CUDA Available:[/bold green] {cuda_version} "
+                f"({device_count} device(s))"
+            )
+            console.print(f"[bold green]  GPU:[/bold green] {device_name}\n")
+        else:
+            console.print("[bold yellow]⚠ CUDA Not Available[/bold yellow] - Using CPU\n")
+    except ImportError:
+        console.print("[bold yellow]⚠ PyTorch Not Installed[/bold yellow]\n")
 
 
 @app.command()
@@ -78,9 +84,16 @@ def info():
     info_table.add_column("Version/Status", style="green")
 
     info_table.add_row("Python", f"{sys.version.split()[0]}")
-    info_table.add_row("PyTorch", torch.__version__)
-    info_table.add_row("CUDA Available", "Yes ✓" if torch.cuda.is_available() else "No ✗")
-    info_table.add_row("MPS Available", "Yes ✓" if torch.backends.mps.is_available() else "No ✗")
+
+    try:
+        import torch
+        info_table.add_row("PyTorch", torch.__version__)
+        info_table.add_row("CUDA Available", "Yes ✓" if torch.cuda.is_available() else "No ✗")
+        info_table.add_row("MPS Available", "Yes ✓" if torch.backends.mps.is_available() else "No ✗")
+    except ImportError:
+        info_table.add_row("PyTorch", "Not installed")
+        info_table.add_row("CUDA Available", "N/A")
+        info_table.add_row("MPS Available", "N/A")
 
     console.print(info_table)
 
@@ -129,7 +142,7 @@ def list_lessons():
     # Production deployment
     production = lessons_tree.add("🚀 [bold yellow]Production Deployment[/bold yellow]")
     production.add("🚧 Lesson 20: Model Export and Deployment")
-    production.add("🚧 Lesson 21: Mobile & Edge with ExecutorTorch")
+    production.add("✅ Lesson 21: Mobile & Edge with ExecutorTorch 🔥")
     production.add("🚧 Lesson 22: Custom Operators and C++ Extensions")
 
     # Advanced topics
@@ -163,19 +176,27 @@ def run(
     ) as progress:
         task = progress.add_task(f"Loading Lesson {lesson}...", total=None)
 
-        # Run the appropriate lesson
+        # Run the appropriate lesson (import on-demand to avoid dependency issues)
         if lesson == 1:
+            from pytorch_teaching.lessons import lesson_01_tensors
             progress.update(task, description="✓ Lesson 1 loaded!")
             progress.stop()
             lesson_01_tensors.run(interactive=interactive, verbose=verbose)
         elif lesson == 2:
+            from pytorch_teaching.lessons import lesson_02_math_ops
             progress.update(task, description="✓ Lesson 2 loaded!")
             progress.stop()
             lesson_02_math_ops.run(interactive=interactive, verbose=verbose)
         elif lesson == 3:
+            from pytorch_teaching.lessons import lesson_03_device_management
             progress.update(task, description="✓ Lesson 3 loaded!")
             progress.stop()
             lesson_03_device_management.run(interactive=interactive, verbose=verbose)
+        elif lesson == 21:
+            from pytorch_teaching.lessons import lesson_21_executorch
+            progress.update(task, description="✓ Lesson 21 loaded!")
+            progress.stop()
+            lesson_21_executorch.run(interactive=interactive, verbose=verbose)
         else:
             progress.stop()
             console.print(
@@ -189,7 +210,12 @@ def run(
 def version():
     """Display version information."""
     console.print(f"[bold cyan]PyTorch Teaching[/bold cyan] version [bold green]{__version__}[/bold green]")
-    console.print(f"PyTorch version: [bold green]{torch.__version__}[/bold green]")
+
+    try:
+        import torch
+        console.print(f"PyTorch version: [bold green]{torch.__version__}[/bold green]")
+    except ImportError:
+        console.print("PyTorch version: [bold yellow]Not installed[/bold yellow]")
 
 
 @app.command()
@@ -205,12 +231,17 @@ def doctor():
     checks.add_column("Details", style="yellow")
 
     # Check PyTorch installation
+    torch_available = False
     try:
         import torch
 
+        torch_available = True
         checks.add_row("PyTorch Installation", "✓ Pass", f"Version {torch.__version__}")
     except ImportError:
         checks.add_row("PyTorch Installation", "✗ Fail", "Not installed")
+        console.print(checks)
+        console.print("\n[bold yellow]Install PyTorch to continue: pip install torch[/bold yellow]")
+        return
 
     # Check CUDA
     if torch.cuda.is_available():
