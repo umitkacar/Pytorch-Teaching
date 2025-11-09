@@ -11,8 +11,17 @@
 [![GitHub stars](https://img.shields.io/github/stars/umitkacar/Pytorch-Teaching?style=for-the-badge&logo=github&color=yellow)](https://github.com/umitkacar/Pytorch-Teaching/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/umitkacar/Pytorch-Teaching?style=for-the-badge&logo=github&color=blue)](https://github.com/umitkacar/Pytorch-Teaching/network)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge&logo=opensourceinitiative)](LICENSE)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.5+-ee4c2c?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org/)
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+
+### 🏆 Code Quality & Testing
+
+[![Tests](https://img.shields.io/badge/tests-26%20passed-success?style=flat-square&logo=pytest)](tests/)
+[![Coverage](https://img.shields.io/badge/coverage-46.14%25-yellowgreen?style=flat-square)](TEST_RESULTS.md)
+[![Ruff](https://img.shields.io/badge/ruff-0%20errors-success?style=flat-square&logo=ruff)](https://github.com/astral-sh/ruff)
+[![Black](https://img.shields.io/badge/code%20style-black-000000?style=flat-square)](https://github.com/psf/black)
+[![MyPy](https://img.shields.io/badge/type%20checked-mypy-blue?style=flat-square)](http://mypy-lang.org/)
+[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?style=flat-square&logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
 <p align="center">
   <a href="#-whats-new">What's New</a> •
@@ -48,10 +57,13 @@ pytorch-teach run 1      # Tensor Fundamentals
 pytorch-teach run 21     # ExecutorTorch (🔥 Mobile AI!)
 
 # List all lessons
-pytorch-teach list
+pytorch-teach list-lessons
 
 # Health check
 pytorch-teach doctor
+
+# Show system info
+pytorch-teach info
 ```
 
 ---
@@ -144,7 +156,7 @@ ptt --help  # Short alias
 pytorch-teach info
 
 # List all lessons
-pytorch-teach list
+pytorch-teach list-lessons
 
 # Run lessons
 pytorch-teach run 1   # Tensor Fundamentals
@@ -153,7 +165,10 @@ pytorch-teach run 3   # Device Management
 pytorch-teach run 21  # ExecutorTorch 🔥
 
 # Run in batch mode (non-interactive)
-pytorch-teach run 1 --no-interactive
+pytorch-teach run 1 --batch
+
+# Run with verbose output
+pytorch-teach run 1 --verbose
 
 # Health check your PyTorch installation
 pytorch-teach doctor
@@ -326,7 +341,7 @@ docker run -it --gpus all -p 8888:8888 -v $(pwd):/workspace pytorch/pytorch:2.5.
 - 🖥️ **CPU:** Intel Core i5 or equivalent
 - 🧠 **RAM:** 8 GB
 - 💾 **Storage:** 5 GB free space
-- 🐍 **Python:** 3.8+
+- 🐍 **Python:** 3.9+
 - 📦 **PyTorch:** 2.0+
 
 </td>
@@ -337,8 +352,8 @@ docker run -it --gpus all -p 8888:8888 -v $(pwd):/workspace pytorch/pytorch:2.5.
 - 🧠 **RAM:** 16 GB+
 - 🎮 **GPU:** NVIDIA RTX 3060+ (8GB VRAM)
 - 💾 **Storage:** 20 GB SSD
-- 🐍 **Python:** 3.10+
-- 📦 **PyTorch:** 2.5+
+- 🐍 **Python:** 3.11+
+- 📦 **PyTorch:** 2.9+
 
 </td>
 </tr>
@@ -355,6 +370,31 @@ We welcome contributions! 🎉
 3. 💾 Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. 📤 Push to the branch (`git push origin feature/AmazingFeature`)
 5. 🎯 Open a Pull Request
+
+**See:** [DEVELOPMENT.md](DEVELOPMENT.md) for detailed contribution guidelines.
+
+---
+
+## 📖 Documentation
+
+### Complete Documentation Set
+
+| Document | Description | Status |
+|----------|-------------|--------|
+| [README.md](README.md) | Main project overview and quickstart | ✅ Current |
+| [INSTALL.md](INSTALL.md) | Detailed installation instructions | ✅ Complete |
+| [DEVELOPMENT.md](DEVELOPMENT.md) | Developer setup and contribution guide | ✅ Complete |
+| [TEST_RESULTS.md](TEST_RESULTS.md) | Comprehensive QA report | ✅ Complete |
+| [lessons-learned.md](lessons-learned.md) | Project insights and best practices | ✅ Complete |
+| [CHANGELOG.md](CHANGELOG.md) | Version history and changes | ✅ Updated |
+
+### Quick Links
+
+- 🚀 **Getting Started:** [INSTALL.md](INSTALL.md)
+- 🧪 **Testing:** [TEST_RESULTS.md](TEST_RESULTS.md)
+- 🛠️ **Development:** [DEVELOPMENT.md](DEVELOPMENT.md)
+- 📝 **Changes:** [CHANGELOG.md](CHANGELOG.md)
+- 🎓 **Lessons Learned:** [lessons-learned.md](lessons-learned.md)
 
 ---
 
