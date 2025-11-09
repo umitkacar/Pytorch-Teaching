@@ -37,12 +37,12 @@ def get_device(prefer_cuda: bool = True) -> torch.device:
     """
     if prefer_cuda and torch.cuda.is_available():
         return torch.device("cuda")
-    elif torch.backends.mps.is_available():
+    if torch.backends.mps.is_available():
         return torch.device("mps")
     return torch.device("cpu")
 
 
-def get_model_size(model: torch.nn.Module) -> tuple[int, int]:
+def get_model_size(model: torch.nn.Module) -> tuple[int, float]:
     """
     Calculate model size in parameters and memory.
 
@@ -98,7 +98,7 @@ def print_model_summary(model: torch.nn.Module) -> None:
     total_params, size_mb = get_model_size(model)
     trainable_params = count_parameters(model, trainable_only=True)
 
-    print(f"\nModel Summary:")
+    print("\nModel Summary:")
     print(f"{'='*50}")
     print(f"Total parameters: {total_params:,}")
     print(f"Trainable parameters: {trainable_params:,}")
@@ -155,6 +155,5 @@ def benchmark_operation(func, *args, num_runs: int = 100, warmup: int = 10, **kw
         torch.cuda.synchronize()
 
     end = time.perf_counter()
-    avg_time = (end - start) / num_runs * 1000  # Convert to ms
+    return (end - start) / num_runs * 1000  # Convert to ms
 
-    return avg_time

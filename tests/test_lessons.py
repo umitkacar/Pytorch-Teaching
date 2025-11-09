@@ -1,9 +1,11 @@
 """Tests for PyTorch Teaching lessons."""
 
 import pytest
-import torch
 
-from pytorch_teaching.lessons import (
+# Skip all tests if torch is not installed
+torch = pytest.importorskip("torch", reason="PyTorch is not installed")
+
+from pytorch_teaching.lessons import (  # noqa: E402
     lesson_01_tensors,
     lesson_02_math_ops,
     lesson_03_device_management,

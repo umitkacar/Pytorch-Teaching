@@ -14,11 +14,10 @@ Learning Objectives:
 
 import numpy as np
 import torch
-from rich import print as rprint
 from rich.console import Console
 from rich.panel import Panel
-from rich.syntax import Syntax
 from rich.table import Table
+
 
 console = Console()
 
@@ -30,20 +29,22 @@ def explain_scalars():
 
     # Python scalar
     python_scalar = 42
-    console.print(f"[green]Python scalar:[/green] {python_scalar} (type: {type(python_scalar).__name__})")
+    console.print(
+        f"[green]Python scalar:[/green] {python_scalar} (type: {type(python_scalar).__name__})",
+    )
 
     # NumPy scalar
     numpy_scalar = np.array(42)
     console.print(
         f"[green]NumPy scalar:[/green] {numpy_scalar} "
-        f"(shape: {numpy_scalar.shape}, dtype: {numpy_scalar.dtype})"
+        f"(shape: {numpy_scalar.shape}, dtype: {numpy_scalar.dtype})",
     )
 
     # PyTorch scalar
     torch_scalar = torch.tensor(42)
     console.print(
         f"[green]PyTorch scalar:[/green] {torch_scalar} "
-        f"(shape: {torch_scalar.shape}, dtype: {torch_scalar.dtype})"
+        f"(shape: {torch_scalar.shape}, dtype: {torch_scalar.dtype})",
     )
 
     return python_scalar, numpy_scalar, torch_scalar
@@ -62,14 +63,14 @@ def explain_vectors():
     numpy_vector = np.array([1, 2, 3, 4, 5])
     console.print(
         f"[green]NumPy vector:[/green] {numpy_vector} "
-        f"(shape: {numpy_vector.shape}, dtype: {numpy_vector.dtype})"
+        f"(shape: {numpy_vector.shape}, dtype: {numpy_vector.dtype})",
     )
 
     # PyTorch vector
     torch_vector = torch.tensor([1, 2, 3, 4, 5])
     console.print(
         f"[green]PyTorch vector:[/green] {torch_vector} "
-        f"(shape: {torch_vector.shape}, dtype: {torch_vector.dtype})"
+        f"(shape: {torch_vector.shape}, dtype: {torch_vector.dtype})",
     )
 
     return python_vector, numpy_vector, torch_vector
@@ -82,7 +83,7 @@ def explain_matrices():
 
     # Python matrix (nested lists)
     python_matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-    console.print(f"[green]Python nested list:[/green]")
+    console.print("[green]Python nested list:[/green]")
     for row in python_matrix:
         console.print(f"  {row}")
 
@@ -90,14 +91,14 @@ def explain_matrices():
     numpy_matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     console.print(
         f"\n[green]NumPy matrix:[/green]\n{numpy_matrix}"
-        f"\n(shape: {numpy_matrix.shape}, dtype: {numpy_matrix.dtype})"
+        f"\n(shape: {numpy_matrix.shape}, dtype: {numpy_matrix.dtype})",
     )
 
     # PyTorch matrix
     torch_matrix = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     console.print(
         f"\n[green]PyTorch matrix:[/green]\n{torch_matrix}"
-        f"\n(shape: {torch_matrix.shape}, dtype: {torch_matrix.dtype})"
+        f"\n(shape: {torch_matrix.shape}, dtype: {torch_matrix.dtype})",
     )
 
     return python_matrix, numpy_matrix, torch_matrix
@@ -107,7 +108,7 @@ def explain_tensors():
     """Demonstrate high-dimensional tensors."""
     console.print("\n[bold cyan]═══ Tensors (3D and Higher) ═══[/bold cyan]")
     console.print(
-        "[yellow]A tensor is a generalization of matrices to multiple dimensions.[/yellow]\n"
+        "[yellow]A tensor is a generalization of matrices to multiple dimensions.[/yellow]\n",
     )
 
     # 3D tensor
@@ -116,10 +117,10 @@ def explain_tensors():
             [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
             [[11, 12, 13], [14, 15, 16], [17, 18, 19]],
             [[21, 22, 23], [24, 25, 26], [27, 28, 29]],
-        ]
+        ],
     )
 
-    console.print(f"[green]3D Tensor:[/green]")
+    console.print("[green]3D Tensor:[/green]")
     console.print(f"Shape: {tensor_3d.shape}")
     console.print(f"Dimensions: {tensor_3d.dim()}")
     console.print(f"Size: {tensor_3d.size()}")
@@ -193,7 +194,7 @@ def demonstrate_indexing():
         [
             [[1, 2, 3], [4, 5, 6]],
             [[7, 8, 9], [10, 11, 12]],
-        ]
+        ],
     )
 
     console.print(f"[green]Original tensor shape:[/green] {tensor.shape}")
@@ -219,7 +220,7 @@ def run(interactive: bool = True, verbose: bool = False):
             "Understanding scalars, vectors, matrices, and tensors.\n"
             "Comparing Python, NumPy, and PyTorch implementations.",
             border_style="cyan",
-        )
+        ),
     )
 
     # Scalars
@@ -257,7 +258,7 @@ def run(interactive: bool = True, verbose: bool = False):
 
     console.print("\n[bold green]✓ Lesson 1 Complete![/bold green]")
     console.print(
-        "[yellow]Next:[/yellow] Run [cyan]pytorch-teach run 2[/cyan] for Lesson 2: Mathematical Operations\n"
+        "[yellow]Next:[/yellow] Run [cyan]pytorch-teach run 2[/cyan] for Lesson 2: Mathematical Operations\n",
     )
 
 

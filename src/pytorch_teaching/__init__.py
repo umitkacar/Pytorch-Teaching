@@ -16,4 +16,4 @@ __license__ = "MIT"
 
 # Lazy imports to avoid dependency issues at import time
 # Import submodules on demand to prevent circular imports and missing dependencies
-__all__ = ["__version__", "__author__", "__license__"]
+__all__ = ["__author__", "__license__", "__version__"]

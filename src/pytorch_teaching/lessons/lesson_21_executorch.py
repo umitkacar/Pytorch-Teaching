@@ -15,13 +15,11 @@ Learning Objectives:
 Official Documentation: https://pytorch.org/executorch/
 """
 
-import torch
-import torch.nn as nn
-from rich import print as rprint
 from rich.console import Console
 from rich.panel import Panel
 from rich.syntax import Syntax
 from rich.table import Table
+
 
 console = Console()
 
@@ -30,7 +28,9 @@ def explain_executorch():
     """Explain what ExecuTorch is and its benefits."""
     console.print("\n[bold cyan]═══ What is ExecuTorch? ═══[/bold cyan]\n")
 
-    console.print("[yellow]ExecuTorch is PyTorch's official solution for edge and mobile AI deployment.[/yellow]\n")
+    console.print(
+        "[yellow]ExecuTorch is PyTorch's official solution for edge and mobile AI deployment.[/yellow]\n",
+    )
 
     benefits_table = Table(show_header=True, header_style="bold magenta")
     benefits_table.add_column("Feature", style="cyan", width=25)
@@ -111,7 +111,7 @@ def demonstrate_model_export():
 
     console.print("[yellow]Step 1: Define your PyTorch model[/yellow]")
 
-    model_code = '''
+    model_code = """
 import torch
 import torch.nn as nn
 
@@ -137,14 +137,14 @@ class SimpleCNN(nn.Module):
 
 model = SimpleCNN()
 model.eval()
-'''
+"""
 
     syntax = Syntax(model_code, "python", theme="monokai", line_numbers=True)
     console.print(syntax)
 
     console.print("\n[yellow]Step 2: Export using torch.export()[/yellow]")
 
-    export_code = '''
+    export_code = """
 from torch.export import export
 from executorch.exir import to_edge
 
@@ -159,7 +159,7 @@ edge_program = to_edge(exported_program)
 
 # Save the .pte file
 edge_program.to_executorch().save("model.pte")
-'''
+"""
 
     syntax = Syntax(export_code, "python", theme="monokai", line_numbers=True)
     console.print(syntax)
@@ -172,10 +172,10 @@ def demonstrate_quantization():
     console.print("\n[bold cyan]═══ Quantization for Mobile Deployment ═══[/bold cyan]\n")
 
     console.print(
-        "[yellow]Quantization reduces model size and improves inference speed on mobile devices.[/yellow]\n"
+        "[yellow]Quantization reduces model size and improves inference speed on mobile devices.[/yellow]\n",
     )
 
-    quantization_code = '''
+    quantization_code = """
 from torch.ao.quantization.quantize_pt2e import (
     prepare_pt2e,
     convert_pt2e,
@@ -203,7 +203,7 @@ quantized_model = convert_pt2e(prepared_model)
 # Export quantized model
 edge_program = to_edge(export(quantized_model, example_input))
 edge_program.to_executorch().save("model_quantized.pte")
-'''
+"""
 
     syntax = Syntax(quantization_code, "python", theme="monokai", line_numbers=True)
     console.print(syntax)
@@ -220,7 +220,7 @@ def demonstrate_delegates():
     console.print("\n[bold cyan]═══ Hardware Delegates ═══[/bold cyan]\n")
 
     console.print(
-        "[yellow]Delegates enable hardware-specific optimizations for maximum performance.[/yellow]\n"
+        "[yellow]Delegates enable hardware-specific optimizations for maximum performance.[/yellow]\n",
     )
 
     delegates_table = Table(show_header=True, header_style="bold magenta")
@@ -228,9 +228,7 @@ def demonstrate_delegates():
     delegates_table.add_column("Hardware", style="green", width=25)
     delegates_table.add_column("Performance", style="yellow", width=30)
 
-    delegates_table.add_row(
-        "Qualcomm HTP", "Snapdragon devices", "Up to 10x faster on Hexagon DSP"
-    )
+    delegates_table.add_row("Qualcomm HTP", "Snapdragon devices", "Up to 10x faster on Hexagon DSP")
     delegates_table.add_row("Apple CoreML", "iPhone/iPad (A/M chips)", "Neural Engine acceleration")
     delegates_table.add_row("ARM Ethos-U", "ARM Cortex-M devices", "Optimized for microcontrollers")
     delegates_table.add_row("MediaTek NeuroPilot", "MediaTek SoCs", "APU acceleration")
@@ -240,7 +238,7 @@ def demonstrate_delegates():
 
     console.print("\n[yellow]Example: Using Qualcomm Delegate[/yellow]")
 
-    delegate_code = '''
+    delegate_code = """
 from executorch.backends.qualcomm import QnnBackend
 
 # Configure Qualcomm HTP backend
@@ -257,7 +255,7 @@ edge_program_with_delegate = edge_program.to_backend(
 
 # Save with delegate
 edge_program_with_delegate.save("model_qnn.pte")
-'''
+"""
 
     syntax = Syntax(delegate_code, "python", theme="monokai", line_numbers=True)
     console.print(syntax)
@@ -268,7 +266,7 @@ def demonstrate_llm_deployment():
     console.print("\n[bold cyan]═══ Deploying LLMs on Edge (Llama 3.2) ═══[/bold cyan]\n")
 
     console.print(
-        "[yellow]ExecuTorch enables running large language models directly on mobile devices![/yellow]\n"
+        "[yellow]ExecuTorch enables running large language models directly on mobile devices![/yellow]\n",
     )
 
     console.print("[bold green]Llama 3.2 Models for Edge:[/bold green]")
@@ -276,7 +274,7 @@ def demonstrate_llm_deployment():
     console.print("  • Llama 3.2 3B: High quality on modern devices")
     console.print("  • INT4 quantization: Reduces size by 8x\n")
 
-    llm_code = '''
+    llm_code = """
 # Download and prepare Llama 3.2
 from executorch.examples.models.llama2 import export_llama
 
@@ -294,7 +292,7 @@ export_llama(
 # - KV cache for autoregressive generation
 # - Fused operators
 # - Hardware-specific kernels
-'''
+"""
 
     syntax = Syntax(llm_code, "python", theme="monokai", line_numbers=True)
     console.print(syntax)
@@ -312,7 +310,7 @@ def demonstrate_android_ios_deployment():
 
     console.print("[bold yellow]Android Deployment:[/bold yellow]")
 
-    android_code = '''
+    android_code = """
 // Android (Java/Kotlin)
 import org.pytorch.executorch.Module;
 
@@ -328,14 +326,14 @@ Tensor output = module.forward(inputTensor);
 
 // Get results
 float[] scores = output.getDataAsFloatArray();
-'''
+"""
 
     syntax = Syntax(android_code, "java", theme="monokai", line_numbers=True)
     console.print(syntax)
 
     console.print("\n[bold yellow]iOS Deployment:[/bold yellow]")
 
-    ios_code = '''
+    ios_code = """
 // iOS (Swift)
 import ExecuTorch
 
@@ -350,7 +348,7 @@ let output = try! module.forward([input])
 
 // Process results
 let scores = output[0].floatData
-'''
+"""
 
     syntax = Syntax(ios_code, "swift", theme="monokai", line_numbers=True)
     console.print(syntax)
@@ -418,7 +416,7 @@ def run(interactive: bool = True, verbose: bool = False):
             "Deploy PyTorch models on mobile and edge devices with 50KB runtime.\n"
             "Learn to run LLMs on smartphones with maximum performance!",
             border_style="cyan",
-        )
+        ),
     )
 
     # Introduction
@@ -470,13 +468,15 @@ def run(interactive: bool = True, verbose: bool = False):
         "\n  • Try exporting your own models"
         "\n  • Experiment with different quantization schemes"
         "\n  • Profile on real mobile devices"
-        "\n  • Explore hardware delegates for your target platform\n"
+        "\n  • Explore hardware delegates for your target platform\n",
     )
 
     console.print("[cyan]📚 Resources:[/cyan]")
     console.print("  • Official Docs: https://pytorch.org/executorch/")
     console.print("  • Examples: https://github.com/pytorch/executorch/tree/main/examples")
-    console.print("  • Llama on Mobile: https://github.com/pytorch/executorch/tree/main/examples/models/llama2\n")
+    console.print(
+        "  • Llama on Mobile: https://github.com/pytorch/executorch/tree/main/examples/models/llama2\n",
+    )
 
 
 if __name__ == "__main__":

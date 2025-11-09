@@ -74,6 +74,8 @@ dev = [
     "pylint>=3.0.0",
     # Pre-commit
     "pre-commit>=3.3.3",
+    # Package management and security
+    "uv>=0.1.0",
     # Development
     "ipython>=8.14.0",
     "ipdb>=0.13.13",
@@ -207,6 +209,8 @@ extend-exclude = '''
 [tool.ruff]
 line-length = 100
 target-version = "py39"
+
+[tool.ruff.lint]
 select = [
     "E",     # pycodestyle errors
     "W",     # pycodestyle warnings
@@ -249,24 +253,33 @@ select = [
 ignore = [
     "E501",    # line too long (handled by black)
     "B008",    # function calls in argument defaults
+    "BLE001",  # blind exception catch (intentional for robustness)
     "C901",    # too complex
     "PLR0913", # too many arguments
+    "PLR2004", # magic values in comparison
     "S101",    # assert usage (OK in tests)
     "T201",    # print found (OK for CLI)
     "FBT001",  # boolean positional arg
     "FBT002",  # boolean default arg
+    "FBT003",  # boolean positional value in function call
+    "PLC0415", # import outside top-level (intentional lazy imports)
+    "RUF001",  # ambiguous unicode (intentional for math symbols)
+    "RUF059",  # unused unpacked variable
+    "NPY002",  # legacy numpy random seed (compatible)
 ]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401", "F403"]
-"tests/*" = ["S101", "PLR2004", "ARG001"]
+"tests/*" = ["S101", "PLR2004", "ARG001", "PLC0415"]
+"**/lesson_*_placeholder.py" = ["ARG001"]  # Unused args in placeholders OK
+"**/lesson_*.py" = ["ARG001"]  # verbose/interactive args may not be used yet
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["pytorch_teaching"]
 force-single-line = false
 lines-after-imports = 2
 
-[tool.ruff.pylint]
+[tool.ruff.lint.pylint]
 max-args = 8
 max-branches = 15
 max-returns = 8
@@ -296,8 +309,6 @@ addopts = [
     "--strict-config",
     "--showlocals",
     "--tb=short",
-    "--cov-report=term-missing:skip-covered",
-    "--cov-config=pyproject.toml",
 ]
 testpaths = ["tests"]
 pythonpath = ["src"]
@@ -310,8 +321,6 @@ markers = [
     "integration: marks tests as integration tests",
     "gpu: marks tests that require GPU",
 ]
-timeout = 300
-timeout_method = "thread"
 
 # Coverage configuration
 [tool.coverage.run]

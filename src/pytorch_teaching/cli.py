@@ -6,18 +6,15 @@ PyTorch teaching lessons interactively.
 """
 
 import sys
-from pathlib import Path
-from typing import Optional
 
 import typer
-from rich import print as rprint
 from rich.console import Console
-from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 from rich.tree import Tree
 
 from pytorch_teaching import __version__
+
 
 # Lessons are imported on-demand to avoid dependency issues at CLI startup
 
@@ -48,22 +45,24 @@ def display_banner():
     # Try to import torch for version info
     try:
         import torch
+
         console.print(f"[bold green]PyTorch:[/bold green] {torch.__version__}\n")
     except ImportError:
-        console.print(f"[bold yellow]PyTorch:[/bold yellow] Not installed\n")
+        console.print("[bold yellow]PyTorch:[/bold yellow] Not installed\n")
 
 
 def check_cuda_availability():
     """Display CUDA availability status."""
     try:
         import torch
+
         if torch.cuda.is_available():
             cuda_version = torch.version.cuda
             device_count = torch.cuda.device_count()
             device_name = torch.cuda.get_device_name(0)
             console.print(
                 f"[bold green]✓ CUDA Available:[/bold green] {cuda_version} "
-                f"({device_count} device(s))"
+                f"({device_count} device(s))",
             )
             console.print(f"[bold green]  GPU:[/bold green] {device_name}\n")
         else:
@@ -87,9 +86,12 @@ def info():
 
     try:
         import torch
+
         info_table.add_row("PyTorch", torch.__version__)
         info_table.add_row("CUDA Available", "Yes ✓" if torch.cuda.is_available() else "No ✗")
-        info_table.add_row("MPS Available", "Yes ✓" if torch.backends.mps.is_available() else "No ✗")
+        info_table.add_row(
+            "MPS Available", "Yes ✓" if torch.backends.mps.is_available() else "No ✗",
+        )
     except ImportError:
         info_table.add_row("PyTorch", "Not installed")
         info_table.add_row("CUDA Available", "N/A")
@@ -152,7 +154,7 @@ def list_lessons():
 
     console.print(lessons_tree)
     console.print(
-        "\n[bold green]✅ Available[/bold green] | [bold yellow]🚧 Coming Soon[/bold yellow]"
+        "\n[bold green]✅ Available[/bold green] | [bold yellow]🚧 Coming Soon[/bold yellow]",
     )
 
 
@@ -179,21 +181,25 @@ def run(
         # Run the appropriate lesson (import on-demand to avoid dependency issues)
         if lesson == 1:
             from pytorch_teaching.lessons import lesson_01_tensors
+
             progress.update(task, description="✓ Lesson 1 loaded!")
             progress.stop()
             lesson_01_tensors.run(interactive=interactive, verbose=verbose)
         elif lesson == 2:
             from pytorch_teaching.lessons import lesson_02_math_ops
+
             progress.update(task, description="✓ Lesson 2 loaded!")
             progress.stop()
             lesson_02_math_ops.run(interactive=interactive, verbose=verbose)
         elif lesson == 3:
             from pytorch_teaching.lessons import lesson_03_device_management
+
             progress.update(task, description="✓ Lesson 3 loaded!")
             progress.stop()
             lesson_03_device_management.run(interactive=interactive, verbose=verbose)
         elif lesson == 21:
             from pytorch_teaching.lessons import lesson_21_executorch
+
             progress.update(task, description="✓ Lesson 21 loaded!")
             progress.stop()
             lesson_21_executorch.run(interactive=interactive, verbose=verbose)
@@ -201,7 +207,7 @@ def run(
             progress.stop()
             console.print(
                 f"[bold yellow]Lesson {lesson} is coming soon![/bold yellow] "
-                "Stay tuned for updates."
+                "Stay tuned for updates.",
             )
             raise typer.Exit(code=0)
 
@@ -209,10 +215,13 @@ def run(
 @app.command()
 def version():
     """Display version information."""
-    console.print(f"[bold cyan]PyTorch Teaching[/bold cyan] version [bold green]{__version__}[/bold green]")
+    console.print(
+        f"[bold cyan]PyTorch Teaching[/bold cyan] version [bold green]{__version__}[/bold green]",
+    )
 
     try:
         import torch
+
         console.print(f"PyTorch version: [bold green]{torch.__version__}[/bold green]")
     except ImportError:
         console.print("PyTorch version: [bold yellow]Not installed[/bold yellow]")
@@ -231,11 +240,9 @@ def doctor():
     checks.add_column("Details", style="yellow")
 
     # Check PyTorch installation
-    torch_available = False
     try:
         import torch
 
-        torch_available = True
         checks.add_row("PyTorch Installation", "✓ Pass", f"Version {torch.__version__}")
     except ImportError:
         checks.add_row("PyTorch Installation", "✗ Fail", "Not installed")
@@ -259,14 +266,16 @@ def doctor():
     if torch.cuda.is_available():
         cudnn_available = torch.backends.cudnn.is_available()
         checks.add_row(
-            "cuDNN", "✓ Pass" if cudnn_available else "⚠ Warning", "Available" if cudnn_available else "Not available"
+            "cuDNN",
+            "✓ Pass" if cudnn_available else "⚠ Warning",
+            "Available" if cudnn_available else "Not available",
         )
 
     # Check basic tensor operations
     try:
         x = torch.randn(3, 3)
         y = torch.randn(3, 3)
-        z = x + y
+        x + y
         checks.add_row("Basic Operations", "✓ Pass", "CPU tensor operations working")
     except Exception as e:
         checks.add_row("Basic Operations", "✗ Fail", str(e))
@@ -276,7 +285,7 @@ def doctor():
         try:
             x = torch.randn(3, 3, device="cuda")
             y = torch.randn(3, 3, device="cuda")
-            z = x + y
+            x + y
             checks.add_row("CUDA Operations", "✓ Pass", "GPU tensor operations working")
         except Exception as e:
             checks.add_row("CUDA Operations", "✗ Fail", str(e))
@@ -287,7 +296,6 @@ def doctor():
 @app.callback()
 def callback():
     """PyTorch Teaching CLI - Professional learning tool for PyTorch."""
-    pass
 
 
 def main():

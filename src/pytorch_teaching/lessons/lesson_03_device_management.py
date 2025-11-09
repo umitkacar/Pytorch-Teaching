@@ -16,10 +16,10 @@ import sys
 
 import numpy as np
 import torch
-from rich import print as rprint
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
+
 
 console = Console()
 
@@ -34,7 +34,7 @@ def check_device_availability():
     devices_table.add_column("Details", style="yellow")
 
     # CPU (always available)
-    devices_table.add_row("CPU", "✓ Yes", f"Default device")
+    devices_table.add_row("CPU", "✓ Yes", "Default device")
 
     # CUDA
     if torch.cuda.is_available():
@@ -42,7 +42,7 @@ def check_device_availability():
         device_count = torch.cuda.device_count()
         cuda_version = torch.version.cuda
         devices_table.add_row(
-            "CUDA", "✓ Yes", f"{device_count} GPU(s): {device_name}\nCUDA {cuda_version}"
+            "CUDA", "✓ Yes", f"{device_count} GPU(s): {device_name}\nCUDA {cuda_version}",
         )
     else:
         devices_table.add_row("CUDA", "✗ No", "Install CUDA-enabled PyTorch")
@@ -91,7 +91,7 @@ def demonstrate_numpy_to_pytorch():
     console.print("[bold yellow]Testing memory sharing:[/bold yellow]")
     console.print(f"Before: numpy_array[0,0] = {numpy_array[0,0]}")
     numpy_array[0, 0] = 99
-    console.print(f"After modifying numpy_array[0,0] = 99:")
+    console.print("After modifying numpy_array[0,0] = 99:")
     console.print(f"numpy_array[0,0] = {numpy_array[0,0]}")
     console.print(f"tensor_shared[0,0] = {tensor_shared[0,0]}")
     console.print("[dim]Both changed! Memory is shared.[/dim]\n")
@@ -105,7 +105,7 @@ def demonstrate_numpy_to_pytorch():
     console.print("[bold yellow]Testing memory copying:[/bold yellow]")
     console.print(f"Before: numpy_array[0,0] = {numpy_array[0,0]}")
     numpy_array[0, 0] = 77
-    console.print(f"After modifying numpy_array[0,0] = 77:")
+    console.print("After modifying numpy_array[0,0] = 77:")
     console.print(f"numpy_array[0,0] = {numpy_array[0,0]}")
     console.print(f"tensor_copied[0,0] = {tensor_copied[0,0]}")
     console.print("[dim]Only numpy_array changed! Memory is copied.[/dim]\n")
@@ -127,7 +127,7 @@ def demonstrate_pytorch_to_numpy():
     # Demonstrate memory sharing
     console.print("[bold yellow]Testing memory sharing:[/bold yellow]")
     tensor[0, 0] = 99
-    console.print(f"After modifying tensor[0,0] = 99:")
+    console.print("After modifying tensor[0,0] = 99:")
     console.print(f"tensor[0,0] = {tensor[0,0]}")
     console.print(f"numpy_shared[0,0] = {numpy_shared[0,0]}")
     console.print("[dim]Both changed! Memory is shared.[/dim]\n")
@@ -138,7 +138,7 @@ def demonstrate_pytorch_to_numpy():
     numpy_copied = tensor.numpy().copy()
 
     tensor[0, 0] = 88
-    console.print(f"After modifying tensor[0,0] = 88:")
+    console.print("After modifying tensor[0,0] = 88:")
     console.print(f"tensor[0,0] = {tensor[0,0]}")
     console.print(f"numpy_copied[0,0] = {numpy_copied[0,0]}")
     console.print("[dim]Only tensor changed! Memory is copied.[/dim]\n")
@@ -182,7 +182,7 @@ def demonstrate_device_transfer():
         # Move to CUDA
         console.print("[yellow]Moving to CUDA:[/yellow]")
         cuda_tensor = cpu_tensor.to("cuda")
-        console.print(f"cuda_tensor = cpu_tensor.to('cuda')")
+        console.print("cuda_tensor = cpu_tensor.to('cuda')")
         console.print(f"Device: {cuda_tensor.device}\n")
 
         # Alternative methods
@@ -194,7 +194,7 @@ def demonstrate_device_transfer():
         # Move back to CPU
         console.print("[yellow]Moving back to CPU:[/yellow]")
         back_to_cpu = cuda_tensor.to("cpu")
-        console.print(f"back_to_cpu = cuda_tensor.to('cpu')")
+        console.print("back_to_cpu = cuda_tensor.to('cpu')")
         console.print(f"Device: {back_to_cpu.device}\n")
 
         # Alternative method
@@ -203,7 +203,7 @@ def demonstrate_device_transfer():
         # Create directly on GPU
         console.print("[yellow]Create directly on GPU:[/yellow]")
         direct_cuda = torch.randn(2, 2, device="cuda")
-        console.print(f"torch.randn(2, 2, device='cuda')")
+        console.print("torch.randn(2, 2, device='cuda')")
         console.print(f"Device: {direct_cuda.device}\n")
 
     else:
@@ -262,7 +262,7 @@ def demonstrate_best_practices():
 [green]device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 tensor = torch.randn(3, 3, device=device)
 model.to(device)[/green]
-"""
+""",
     )
 
     console.print("[bold yellow]2. Avoid unnecessary transfers:[/bold yellow]")
@@ -279,7 +279,7 @@ x = x.to('cuda')
 for i in range(1000):
     y = process(x)
 z = y.to('cpu')
-"""
+""",
     )
 
     console.print("[bold yellow]3. Check device compatibility:[/bold yellow]")
@@ -289,7 +289,7 @@ z = y.to('cpu')
 if x.device != y.device:
     y = y.to(x.device)
 result = x + y[/green]
-"""
+""",
     )
 
     console.print("[bold yellow]4. Memory management:[/bold yellow]")
@@ -301,15 +301,13 @@ torch.cuda.empty_cache()
 # Pin memory for faster transfers
 tensor = torch.randn(1000, 1000, pin_memory=True)
 tensor = tensor.to('cuda', non_blocking=True)[/green]
-"""
+""",
     )
 
 
 def create_conversion_reference():
     """Create a reference table for conversions."""
-    table = Table(
-        title="Conversion Reference Guide", show_header=True, header_style="bold magenta"
-    )
+    table = Table(title="Conversion Reference Guide", show_header=True, header_style="bold magenta")
 
     table.add_column("From → To", style="cyan", width=25)
     table.add_column("Method", style="green", width=35)
@@ -342,11 +340,11 @@ def run(interactive: bool = True, verbose: bool = False):
             "[bold cyan]Lesson 3: Device Management & Data Type Conversions[/bold cyan]\n\n"
             "Master data conversions and device management for optimal performance.",
             border_style="cyan",
-        )
+        ),
     )
 
     # Check devices
-    device = check_device_availability()
+    check_device_availability()
     if interactive:
         input("\n[Press Enter to continue...]")
 
@@ -385,7 +383,7 @@ def run(interactive: bool = True, verbose: bool = False):
 
     console.print("\n[bold green]✓ Lesson 3 Complete![/bold green]")
     console.print(
-        "[yellow]Next:[/yellow] More lessons coming soon! Check [cyan]pytorch-teach list[/cyan]\n"
+        "[yellow]Next:[/yellow] More lessons coming soon! Check [cyan]pytorch-teach list[/cyan]\n",
     )
 
 

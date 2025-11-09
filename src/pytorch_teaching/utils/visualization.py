@@ -1,6 +1,6 @@
 """Visualization utilities for PyTorch Teaching lessons."""
 
-from typing import List, Optional
+from typing import Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,7 +8,9 @@ import seaborn as sns
 import torch
 
 
-def plot_tensor_2d(tensor: torch.Tensor, title: str = "Tensor Visualization", cmap: str = "viridis"):
+def plot_tensor_2d(
+    tensor: torch.Tensor, title: str = "Tensor Visualization", cmap: str = "viridis",
+):
     """
     Visualize a 2D tensor as a heatmap.
 
@@ -18,7 +20,8 @@ def plot_tensor_2d(tensor: torch.Tensor, title: str = "Tensor Visualization", cm
         cmap: Matplotlib colormap name
     """
     if tensor.dim() != 2:
-        raise ValueError(f"Expected 2D tensor, got {tensor.dim()}D")
+        msg = f"Expected 2D tensor, got {tensor.dim()}D"
+        raise ValueError(msg)
 
     plt.figure(figsize=(8, 6))
     sns.heatmap(tensor.detach().cpu().numpy(), annot=True, fmt=".2f", cmap=cmap)
@@ -28,10 +31,10 @@ def plot_tensor_2d(tensor: torch.Tensor, title: str = "Tensor Visualization", cm
 
 
 def plot_training_history(
-    train_losses: List[float],
-    val_losses: Optional[List[float]] = None,
-    train_accs: Optional[List[float]] = None,
-    val_accs: Optional[List[float]] = None,
+    train_losses: list[float],
+    val_losses: Optional[list[float]] = None,
+    train_accs: Optional[list[float]] = None,
+    val_accs: Optional[list[float]] = None,
 ):
     """
     Plot training history (loss and accuracy).
@@ -73,7 +76,7 @@ def visualize_model_predictions(
     images: torch.Tensor,
     predictions: torch.Tensor,
     labels: torch.Tensor,
-    class_names: Optional[List[str]] = None,
+    class_names: Optional[list[str]] = None,
     num_images: int = 16,
 ):
     """

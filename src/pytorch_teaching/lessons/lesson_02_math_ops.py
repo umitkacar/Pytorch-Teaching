@@ -13,11 +13,10 @@ Learning Objectives:
 """
 
 import torch
-from rich import print as rprint
 from rich.console import Console
 from rich.panel import Panel
-from rich.syntax import Syntax
 from rich.table import Table
+
 
 console = Console()
 
@@ -85,27 +84,27 @@ def demonstrate_element_wise_operations():
     # Addition
     console.print("[yellow]Addition (x + y):[/yellow]")
     console.print(f"{x + y}")
-    console.print(f"[dim]Also: torch.add(x, y)[/dim]\n")
+    console.print("[dim]Also: torch.add(x, y)[/dim]\n")
 
     # Subtraction
     console.print("[yellow]Subtraction (x - y):[/yellow]")
     console.print(f"{x - y}")
-    console.print(f"[dim]Also: torch.sub(x, y)[/dim]\n")
+    console.print("[dim]Also: torch.sub(x, y)[/dim]\n")
 
     # Multiplication
     console.print("[yellow]Multiplication (x * y):[/yellow]")
     console.print(f"{x * y}")
-    console.print(f"[dim]Also: torch.mul(x, y)[/dim]\n")
+    console.print("[dim]Also: torch.mul(x, y)[/dim]\n")
 
     # Division
     console.print("[yellow]Division (x / y):[/yellow]")
     console.print(f"{x / y}")
-    console.print(f"[dim]Also: torch.div(x, y)[/dim]\n")
+    console.print("[dim]Also: torch.div(x, y)[/dim]\n")
 
     # Power
     console.print("[yellow]Power (x ** 2):[/yellow]")
     console.print(f"{x ** 2}")
-    console.print(f"[dim]Also: torch.pow(x, 2)[/dim]\n")
+    console.print("[dim]Also: torch.pow(x, 2)[/dim]\n")
 
     # Square root
     console.print("[yellow]Square Root (torch.sqrt(x)):[/yellow]")
@@ -133,12 +132,12 @@ def demonstrate_matrix_operations():
     # Matrix multiplication
     console.print("[yellow]Matrix Multiplication (A @ B):[/yellow]")
     console.print(f"{a @ b}")
-    console.print(f"[dim]Also: torch.matmul(a, b) or torch.mm(a, b)[/dim]\n")
+    console.print("[dim]Also: torch.matmul(a, b) or torch.mm(a, b)[/dim]\n")
 
     # Matrix transpose
     console.print("[yellow]Transpose (A.T):[/yellow]")
     console.print(f"{a.T}")
-    console.print(f"[dim]Also: torch.transpose(a, 0, 1)[/dim]\n")
+    console.print("[dim]Also: torch.transpose(a, 0, 1)[/dim]\n")
 
     # Matrix determinant
     console.print("[yellow]Determinant (torch.linalg.det(A)):[/yellow]")
@@ -246,14 +245,16 @@ def demonstrate_inplace_operations():
     console.print(f"[green]After x.add_(y):[/green]\nx = {x}")
     console.print("[dim]Original x modified (note the underscore)[/dim]\n")
 
-    console.print("[bold red]⚠️ Warning:[/bold red] In-place operations can cause issues with autograd!")
+    console.print(
+        "[bold red]⚠️ Warning:[/bold red] In-place operations can cause issues with autograd!",
+    )
     console.print("Use them carefully, especially during training.\n")
 
 
 def create_operations_reference():
     """Create a reference table of common operations."""
     table = Table(
-        title="Common PyTorch Operations Reference", show_header=True, header_style="bold magenta"
+        title="Common PyTorch Operations Reference", show_header=True, header_style="bold magenta",
     )
 
     table.add_column("Operation", style="cyan", width=25)
@@ -287,7 +288,7 @@ def run(interactive: bool = True, verbose: bool = False):
             "[bold cyan]Lesson 2: Mathematical Operations with Tensors[/bold cyan]\n\n"
             "Master tensor creation, arithmetic, and statistical operations.",
             border_style="cyan",
-        )
+        ),
     )
 
     # Tensor creation
@@ -325,7 +326,7 @@ def run(interactive: bool = True, verbose: bool = False):
 
     console.print("\n[bold green]✓ Lesson 2 Complete![/bold green]")
     console.print(
-        "[yellow]Next:[/yellow] Run [cyan]pytorch-teach run 3[/cyan] for Lesson 3: Device Management\n"
+        "[yellow]Next:[/yellow] Run [cyan]pytorch-teach run 3[/cyan] for Lesson 3: Device Management\n",
     )
 
 
