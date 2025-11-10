@@ -1,0 +1,368 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pytorch-teaching"
+version = "2.0.0"
+description = "🔥 Professional PyTorch CLI teaching tool - Master Deep Learning from basics to production"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "PyTorch Teaching Team", email = "pytorch-teaching@example.com"},
+]
+keywords = [
+    "pytorch",
+    "deep-learning",
+    "machine-learning",
+    "neural-networks",
+    "ai",
+    "education",
+    "cli",
+    "executorch",
+    "distributed-training",
+    "quantization",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Education",
+]
+
+dependencies = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "torchaudio>=2.0.0",
+    "typer[all]>=0.9.0",
+    "rich>=13.0.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "pandas>=2.0.0",
+    "tqdm>=4.65.0",
+    "pillow>=10.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-xdist>=3.3.0",
+    "pytest-timeout>=2.2.0",
+    "pytest-mock>=3.12.0",
+    "pytest-benchmark>=4.0.0",
+    "coverage[toml]>=7.3.0",
+    # Code Quality
+    "black>=23.7.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+    "bandit>=1.7.5",
+    "pylint>=3.0.0",
+    # Pre-commit
+    "pre-commit>=3.3.3",
+    # Package management and security
+    "uv>=0.1.0",
+    # Development
+    "ipython>=8.14.0",
+    "ipdb>=0.13.13",
+    # Type stubs
+    "types-PyYAML>=6.0.0",
+    "types-tqdm>=4.66.0",
+]
+distributed = [
+    "torch-distributed>=0.1.0",
+]
+quantization = [
+    "torch-ao>=0.1.0",
+]
+mobile = [
+    "executorch>=0.1.0",
+]
+all = [
+    "pytorch-teaching[dev,distributed,quantization,mobile]",
+]
+
+[project.urls]
+Homepage = "https://github.com/umitkacar/Pytorch-Teaching"
+Documentation = "https://github.com/umitkacar/Pytorch-Teaching/docs"
+Repository = "https://github.com/umitkacar/Pytorch-Teaching"
+"Bug Tracker" = "https://github.com/umitkacar/Pytorch-Teaching/issues"
+
+[project.scripts]
+pytorch-teach = "pytorch_teaching.cli:app"
+ptt = "pytorch_teaching.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pytorch_teaching"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/docs",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+]
+
+[tool.hatch.envs.default]
+dependencies = [
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+    "pytest-timeout",
+    "black",
+    "ruff",
+    "mypy",
+    "bandit",
+    "coverage[toml]",
+]
+
+[tool.hatch.envs.default.scripts]
+# Testing
+test = "pytest {args:tests}"
+test-cov = "pytest --cov=pytorch_teaching --cov-report=html --cov-report=term --cov-report=xml {args:tests}"
+test-parallel = "pytest -n auto {args:tests}"
+test-verbose = "pytest -vv {args:tests}"
+# Code Quality
+lint = "ruff check src tests"
+lint-fix = "ruff check --fix src tests"
+format = "black src tests"
+format-check = "black --check src tests"
+type-check = "mypy src"
+security = "bandit -r src -ll"
+# Combined
+check = [
+    "format-check",
+    "lint",
+    "type-check",
+    "security",
+]
+all = [
+    "format",
+    "lint-fix",
+    "type-check",
+    "test-cov",
+]
+
+# Test matrix for multiple Python versions
+[[tool.hatch.envs.test.matrix]]
+python = ["3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.test]
+dependencies = [
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist",
+]
+
+[tool.hatch.envs.test.scripts]
+run = "pytest {args:tests}"
+run-cov = "pytest --cov=pytorch_teaching {args:tests}"
+
+[tool.hatch.envs.docs]
+dependencies = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.22.0",
+]
+
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build"
+serve = "mkdocs serve"
+deploy = "mkdocs gh-deploy"
+
+# Black configuration
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.git
+  | \.hatch
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# Ruff configuration
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # pyflakes
+    "I",     # isort
+    "C",     # flake8-comprehensions
+    "B",     # flake8-bugbear
+    "UP",    # pyupgrade
+    "N",     # pep8-naming
+    "YTT",   # flake8-2020
+    "S",     # flake8-bandit
+    "BLE",   # flake8-blind-except
+    "FBT",   # flake8-boolean-trap
+    "A",     # flake8-builtins
+    "COM",   # flake8-commas
+    "C4",    # flake8-comprehensions
+    "DTZ",   # flake8-datetimez
+    "T10",   # flake8-debugger
+    "EM",    # flake8-errmsg
+    "ISC",   # flake8-implicit-str-concat
+    "ICN",   # flake8-import-conventions
+    "G",     # flake8-logging-format
+    "PIE",   # flake8-pie
+    "T20",   # flake8-print
+    "PT",    # flake8-pytest-style
+    "Q",     # flake8-quotes
+    "RSE",   # flake8-raise
+    "RET",   # flake8-return
+    "SIM",   # flake8-simplify
+    "TID",   # flake8-tidy-imports
+    "ARG",   # flake8-unused-arguments
+    "PTH",   # flake8-use-pathlib
+    "ERA",   # eradicate
+    "PD",    # pandas-vet
+    "PL",    # pylint
+    "TRY",   # tryceratops
+    "NPY",   # numpy-specific rules
+    "RUF",   # ruff-specific rules
+]
+ignore = [
+    "E501",    # line too long (handled by black)
+    "B008",    # function calls in argument defaults
+    "BLE001",  # blind exception catch (intentional for robustness)
+    "C901",    # too complex
+    "PLR0913", # too many arguments
+    "PLR2004", # magic values in comparison
+    "S101",    # assert usage (OK in tests)
+    "T201",    # print found (OK for CLI)
+    "FBT001",  # boolean positional arg
+    "FBT002",  # boolean default arg
+    "FBT003",  # boolean positional value in function call
+    "PLC0415", # import outside top-level (intentional lazy imports)
+    "RUF001",  # ambiguous unicode (intentional for math symbols)
+    "RUF059",  # unused unpacked variable
+    "NPY002",  # legacy numpy random seed (compatible)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]
+"tests/*" = ["S101", "PLR2004", "ARG001", "PLC0415"]
+"**/lesson_*_placeholder.py" = ["ARG001"]  # Unused args in placeholders OK
+"**/lesson_*.py" = ["ARG001"]  # verbose/interactive args may not be used yet
+
+[tool.ruff.lint.isort]
+known-first-party = ["pytorch_teaching"]
+force-single-line = false
+lines-after-imports = 2
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-branches = 15
+max-returns = 8
+max-statements = 60
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+follow_imports = "normal"
+ignore_missing_imports = true
+
+# Pytest configuration
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--showlocals",
+    "--tb=short",
+]
+testpaths = ["tests"]
+pythonpath = ["src"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "gpu: marks tests that require GPU",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["pytorch_teaching"]
+branch = true
+parallel = true
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/site-packages/*",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+skip_empty = true
+sort = "Cover"
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+    "@overload",
+    "except ImportError:",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+# Bandit security configuration
+[tool.bandit]
+targets = ["src"]
+exclude_dirs = ["tests", "build", "dist"]
+skips = ["B101", "B601"]
+

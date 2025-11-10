@@ -1,30 +1,51 @@
 # PyTorch Teaching - Requirements
-# Python 3.8+
+# Python 3.9+
+# NOTE: This file is kept for backwards compatibility
+# Main dependencies are now in pyproject.toml
 
-# Core Dependencies
+# For installation, use:
+#   pip install -e .                    # Production install
+#   pip install -e ".[dev]"             # Development install
+#   pip install -e ".[all]"             # All extras
+
+# Core Dependencies (Production)
 torch>=2.0.0
 torchvision>=0.15.0
 torchaudio>=2.0.0
-
-# Jupyter Environment
-jupyter>=1.0.0
-notebook>=6.5.0
-ipython>=8.0.0
-ipywidgets>=8.0.0
-
-# Data Science & Visualization
+typer[all]>=0.9.0
+rich>=13.0.0
 numpy>=1.24.0
-pandas>=2.0.0
 matplotlib>=3.7.0
 seaborn>=0.12.0
-plotly>=5.14.0
-
-# Development Tools (Optional)
-black>=23.0.0
-flake8>=6.0.0
-isort>=5.12.0
-pytest>=7.3.0
-
-# Additional Utilities
+pandas>=2.0.0
 tqdm>=4.65.0
-pillow>=9.5.0
+pillow>=10.0.0
+pyyaml>=6.0
+
+# Development Dependencies (use pip install -e ".[dev]" instead)
+# Testing
+# pytest>=7.4.0
+# pytest-cov>=4.1.0
+# pytest-xdist>=3.3.0
+# pytest-timeout>=2.2.0
+# pytest-mock>=3.12.0
+# pytest-benchmark>=4.0.0
+# coverage[toml]>=7.3.0
+
+# Code Quality
+# black>=23.7.0
+# ruff>=0.1.0
+# mypy>=1.5.0
+# bandit>=1.7.5
+# pylint>=3.0.0
+
+# Pre-commit
+# pre-commit>=3.3.3
+
+# Development
+# ipython>=8.14.0
+# ipdb>=0.13.13
+
+# Type stubs
+# types-PyYAML>=6.0.0
+# types-tqdm>=4.66.0

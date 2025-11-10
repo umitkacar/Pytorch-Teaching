@@ -1,0 +1,161 @@
+# Pre-commit hooks for code quality and consistency
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+# Update hooks: pre-commit autoupdate
+
+default_language_version:
+  python: python3.11
+
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+      - id: name-tests-test
+        args: ['--pytest-test-first']
+      - id: requirements-txt-fixer
+
+  # Code formatting with Black
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        language_version: python3.11
+        args: ['--line-length=100']
+
+  # Linting and code quality with Ruff (replaces flake8, isort, pyupgrade, etc.)
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.13
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+
+  # Type checking with mypy
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-PyYAML
+          - types-tqdm
+          - numpy
+          - pytest
+        args: [--ignore-missing-imports, --no-strict-optional]
+        exclude: ^(tests/test_.*\.py|docs/)
+
+  # Security checks with bandit
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.6
+    hooks:
+      - id: bandit
+        args: ['-c', 'pyproject.toml']
+        additional_dependencies: ['bandit[toml]']
+        exclude: ^tests/
+
+  # Run tests with pytest (including pytest-xdist for parallel execution)
+  - repo: local
+    hooks:
+      - id: pytest-check
+        name: pytest-check
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: false
+        args: [
+          '-n', 'auto',  # Run with pytest-xdist in parallel
+          '--tb=short',
+          '--quiet',
+          'tests/',
+        ]
+        stages: [manual]  # Only run when explicitly called
+
+  # Coverage check
+  - repo: local
+    hooks:
+      - id: coverage-check
+        name: coverage-check
+        entry: bash -c 'coverage run -m pytest tests/ && coverage report --fail-under=60'
+        language: system
+        pass_filenames: false
+        always_run: false
+        stages: [manual]  # Only run when explicitly called
+
+  # Security audit with uv
+  - repo: local
+    hooks:
+      - id: uv-audit
+        name: uv-audit
+        entry: bash -c 'command -v uv >/dev/null 2>&1 && uv pip check || echo "⚠️  uv not installed, skipping audit"'
+        language: system
+        pass_filenames: false
+        always_run: false
+        stages: [manual]  # Only run when explicitly called
+
+  # Check for common security issues
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: v1.3.3
+    hooks:
+      - id: python-safety-dependencies-check
+        files: pyproject.toml
+        stages: [manual]  # Only run when explicitly called
+
+  # Documentation style
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        args: ['--ignore=D100,D101,D102,D103,D104,D105,D107,D203,D213']
+        exclude: ^(tests/|setup.py)
+
+  # YAML formatting
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: v2.12.0
+    hooks:
+      - id: pretty-format-yaml
+        args: [--autofix, --indent, '2']
+        exclude: ^(\.github/|\.pre-commit-config\.yaml)
+
+  # Markdown formatting
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.17
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-black
+        args: ['--wrap', '100']
+        exclude: ^(CHANGELOG\.md)
+
+  # Check for secrets
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: package.lock.json
+
+# Configuration for specific hooks
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: [pytest-check, coverage-check, uv-audit, python-safety-dependencies-check]
+  submodules: false
